@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarurat Care - Cancer Awareness & Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; color: #1a1a2e; overflow-x: hidden; }
+        
+        .nav-bar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); z-index: 999; box-shadow: 0 4px 30px rgba(0,0,0,0.1); transition: 0.3s; }
+        .nav-bar.active { box-shadow: 0 8px 40px rgba(147,51,234,0.2); }
+        .nav-content { max-width: 1400px; margin: 0 auto; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 1rem; font-size: 1.7rem; font-weight: 900; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
+        .brand-symbol { font-size: 2.5rem; animation: rotate 3s infinite; }
+        @keyframes rotate { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(15deg); } }
+        .links { display: flex; gap: 3rem; list-style: none; }
+        .links a { color: #1a1a2e; text-decoration: none; font-weight: 600; position: relative; transition: 0.3s; font-size: 1.05rem; }
+        .links a::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 3px; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 5px; transition: 0.4s; }
+        .links a:hover { color: #667eea; transform: translateY(-2px); }
+        .links a:hover::after { width: 100%; }
+        
+        .hero-area { margin-top: 90px; min-height: 95vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 40%, #f093fb 100%); position: relative; overflow: hidden; display: flex; align-items: center; }
+        .hero-bg { position: absolute; width: 100%; height: 100%; }
+        .bubble { position: absolute; background: rgba(255,255,255,0.1); border-radius: 50%; animation: rise 20s infinite; }
+        .b1 { width: 100px; height: 100px; bottom: -100px; left: 10%; animation-duration: 25s; }
+        .b2 { width: 80px; height: 80px; bottom: -80px; left: 70%; animation-duration: 20s; animation-delay: 3s; }
+        .b3 { width: 120px; height: 120px; bottom: -120px; left: 40%; animation-duration: 28s; animation-delay: 6s; }
+        .b4 { width: 60px; height: 60px; bottom: -60px; left: 85%; animation-duration: 22s; animation-delay: 2s; }
+        @keyframes rise { 0% { bottom: -150px; opacity: 0.3; } 50% { opacity: 0.6; } 100% { bottom: 100%; opacity: 0; } }
+        
+        .hero-wrap { max-width: 1400px; margin: 0 auto; padding: 5rem 2rem; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: center; position: relative; z-index: 1; }
+        .hero-content { animation: fadeUp 1s ease-out; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .tag { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.8rem; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 50px; color: #fff; font-size: 0.95rem; font-weight: 600; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.3); animation: fadeUp 1s ease-out 0.2s both; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900; color: #fff; margin-bottom: 2rem; line-height: 1.1; text-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: fadeUp 1s ease-out 0.3s both; }
+        .hero-title .highlight { display: block; background: linear-gradient(90deg, #ffd6ff, #fff, #e0c3fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { font-size: 1.4rem; color: rgba(255,255,255,0.95); margin-bottom: 3rem; line-height: 1.9; text-shadow: 0 2px 10px rgba(0,0,0,0.1); animation: fadeUp 1s ease-out 0.4s both; }
+        .cta-group { display: flex; gap: 1.5rem; animation: fadeUp 1s ease-out 0.5s both; }
+        .cta { padding: 1.3rem 3.5rem; border-radius: 100px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: 0.4s; display: inline-flex; align-items: center; gap: 0.8rem; border: none; cursor: pointer; position: relative; overflow: hidden; }
+        .cta::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transition: 0.6s; transform: translate(-50%, -50%); }
+        .cta:hover::before { width: 500px; height: 500px; }
+        .cta-primary { background: #fff; color: #667eea; box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+        .cta-primary:hover { transform: translateY(-5px); box-shadow: 0 18px 50px rgba(0,0,0,0.4); }
+        .cta-outline { background: transparent; color: #fff; border: 2.5px solid #fff; backdrop-filter: blur(10px); }
+        .cta-outline:hover { background: #fff; color: #667eea; transform: translateY(-5px); box-shadow: 0 12px 30px rgba(255,255,255,0.4); }
+        
+        .hero-visual { position: relative; animation: fadeUp 1s ease-out 0.6s both; }
+        .visual-frame { background: rgba(255,255,255,0.1); backdrop-filter: blur(30px); border: 3px solid rgba(255,255,255,0.3); border-radius: 45px; padding: 3rem; box-shadow: 0 35px 90px rgba(0,0,0,0.35); transform: rotate(-4deg); transition: 0.5s; }
+        .visual-frame:hover { transform: rotate(0) scale(1.03); box-shadow: 0 45px 110px rgba(0,0,0,0.45); }
+        .visual-img { width: 100%; height: 450px; background: linear-gradient(135deg, #fbc2eb, #a6c1ee, #ffeaa7); border-radius: 35px; display: flex; align-items: center; justify-content: center; font-size: 6rem; position: relative; overflow: hidden; animation: levitate 5s ease-in-out infinite; }
+        @keyframes levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+        .visual-img::before { content: ''; position: absolute; width: 300%; height: 300%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent); animation: sweep 4s infinite; }
+        @keyframes sweep { 0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 100% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        
+        .metrics { background: #fff; padding: 5rem 2rem; margin-top: -80px; position: relative; z-index: 10; }
+        .metrics-wrap { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
+        .metric-box { background: linear-gradient(135deg, #f5f7fa, #fef5ff); padding: 3.5rem 2.5rem; border-radius: 30px; text-align: center; box-shadow: 0 18px 60px rgba(147,51,234,0.12); transition: 0.4s; position: relative; overflow: hidden; border: 2px solid transparent; }
+        .metric-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, #667eea, #764ba2); }
+        .metric-box:nth-child(2)::before { background: linear-gradient(90deg, #f093fb, #f5576c); }
+        .metric-box:nth-child(3)::before { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+        .metric-box:hover { transform: translateY(-18px) scale(1.03); box-shadow: 0 28px 80px rgba(147,51,234,0.25); border-color: #667eea; }
+        .metric-icon { font-size: 4rem; margin-bottom: 1.5rem; animation: hop 2s infinite; }
+        @keyframes hop { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .metric-val { font-size: 4.5rem; font-weight: 900; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.8rem; font-family: 'Playfair Display', serif; }
+        .metric-box:nth-child(2) .metric-val { background: linear-gradient(135deg, #f093fb, #f5576c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .metric-box:nth-child(3) .metric-val { background: linear-gradient(135deg, #4facfe, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .metric-txt { font-size: 1.2rem; color: #4b5563; font-weight: 600; }
+        
+        .purpose { padding: 8rem 2rem; background: linear-gradient(180deg, #fff, #faf5ff); position: relative; }
+        .purpose::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="2" fill="%23e0e7ff"/></svg>'); opacity: 0.5; }
+        .purpose-head { text-align: center; max-width: 950px; margin: 0 auto 6rem; position: relative; z-index: 1; }
+        .section-badge { display: inline-block; padding: 0.6rem 2rem; background: linear-gradient(135deg, #e0e7ff, #fce7f3); border-radius: 50px; color: #667eea; font-size: 0.95rem; font-weight: 700; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 1.5px; }
+        .section-heading { font-family: 'Playfair Display', serif; font-size: 4rem; color: #0f172a; margin-bottom: 2rem; font-weight: 900; line-height: 1.2; position: relative; }
+        .section-heading::after { content: ''; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); width: 120px; height: 6px; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 10px; }
+        .section-text { font-size: 1.3rem; color: #6b7280; margin-top: 2.5rem; line-height: 2; }
+        
+        .cards { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; position: relative; z-index: 1; }
+        .card-item { background: #fff; padding: 3.5rem; border-radius: 30px; box-shadow: 0 12px 45px rgba(0,0,0,0.08); transition: 0.5s; position: relative; overflow: hidden; border: 2px solid transparent; }
+        .card-item::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea, #764ba2); opacity: 0; transition: 0.5s; }
+        .card-item:hover::before { opacity: 0.05; }
+        .card-item:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 28px 80px rgba(147,51,234,0.2); border-color: #667eea; }
+        .card-symbol { width: 90px; height: 90px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 2.5rem; box-shadow: 0 12px 35px rgba(147,51,234,0.35); transition: 0.4s; position: relative; z-index: 1; }
+        .card-item:hover .card-symbol { transform: scale(1.15) rotate(8deg); box-shadow: 0 18px 50px rgba(147,51,234,0.55); }
+        .card-item:nth-child(2) .card-symbol { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 12px 35px rgba(236,72,153,0.35); }
+        .card-item:nth-child(3) .card-symbol { background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 12px 35px rgba(79,172,254,0.35); }
+        .card-heading { font-size: 1.9rem; font-weight: 700; margin-bottom: 1.5rem; color: #0f172a; position: relative; z-index: 1; }
+        .card-info { color: #6b7280; line-height: 2; font-size: 1.1rem; position: relative; z-index: 1; }
+        
+        .inspiration { padding: 8rem 2rem; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); position: relative; overflow: hidden; }
+        .inspiration::before { content: ''; position: absolute; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.15"/></svg>'); }
+        .quote-area { max-width: 1050px; margin: 0 auto; position: relative; z-index: 1; }
+        .quote-container { background: rgba(255,255,255,0.12); backdrop-filter: blur(35px); padding: 6rem 5rem; border-radius: 45px; box-shadow: 0 35px 90px rgba(0,0,0,0.35); position: relative; min-height: 400px; display: flex; flex-direction: column; justify-content: center; border: 3px solid rgba(255,255,255,0.25); transition: 0.4s; }
+        .quote-container:hover { transform: scale(1.02); box-shadow: 0 45px 110px rgba(0,0,0,0.45); }
+        .quote-mark { font-size: 7rem; color: rgba(255,255,255,0.2); position: absolute; top: 2.5rem; left: 3.5rem; font-family: Georgia, serif; line-height: 1; }
+        .quote-content { font-size: 2rem; color: #fff; font-style: italic; line-height: 2; margin-bottom: 3rem; position: relative; z-index: 1; text-shadow: 0 2px 12px rgba(0,0,0,0.2); font-weight: 400; }
+        .quote-source { font-size: 1.4rem; color: rgba(255,255,255,0.95); font-weight: 700; text-align: right; text-shadow: 0 2px 12px rgba(0,0,0,0.2); }
+        .quote-action { display: block; margin: 3.5rem auto 0; padding: 1.3rem 3.5rem; background: #fff; color: #667eea; border: none; border-radius: 100px; font-weight: 700; font-size: 1.15rem; cursor: pointer; transition: 0.4s; box-shadow: 0 12px 35px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
+        .quote-action::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(147,51,234,0.15); transition: 0.6s; transform: translate(-50%, -50%); }
+        .quote-action:hover::before { width: 500px; height: 500px; }
+        .quote-action:hover { transform: translateY(-6px); box-shadow: 0 18px 45px rgba(0,0,0,0.35); }
+        
+        .reviews { padding: 8rem 2rem; background: #fff; }
+        .reviews-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; }
+        .review-card { background: linear-gradient(135deg, #f5f7fa, #fef5ff); padding: 3rem; border-radius: 30px; box-shadow: 0 12px 45px rgba(0,0,0,0.08); transition: 0.4s; border: 2px solid transparent; }
+        .review-card:hover { transform: translateY(-12px); box-shadow: 0 22px 70px rgba(147,51,234,0.2); border-color: #667eea; }
+        .review-top { display: flex; align-items: center; gap: 1.8rem; margin-bottom: 2rem; }
+        .review-pic { width: 75px; height: 75px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 0 10px 25px rgba(147,51,234,0.35); }
+        .review-details h4 { font-size: 1.3rem; font-weight: 700; color: #0f172a; margin-bottom: 0.4rem; }
+        .review-details p { font-size: 1rem; color: #6b7280; }
+        .review-msg { color: #4b5563; line-height: 1.9; font-size: 1.1rem; font-style: italic; }
+        .rating { color: #fbbf24; font-size: 1.3rem; margin-bottom: 1.2rem; }
+        
+        .reach { padding: 8rem 2rem; background: linear-gradient(180deg, #faf5ff, #fff); }
+        .reach-grid { max-width: 1350px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 6rem; align-items: start; }
+        .contact-info h2 { font-family: 'Playfair Display', serif; font-size: 4rem; margin-bottom: 2.5rem; color: #0f172a; font-weight: 900; line-height: 1.2; }
+        .contact-info p { font-size: 1.3rem; color: #6b7280; margin-bottom: 3.5rem; line-height: 2; }
+        .contact-list { display: flex; flex-direction: column; gap: 2.5rem; }
+        .contact-block { display: flex; align-items: center; gap: 2rem; padding: 2.5rem; background: #fff; border-radius: 22px; box-shadow: 0 10px 35px rgba(0,0,0,0.08); transition: 0.4s; border: 2px solid transparent; }
+        .contact-block:hover { box-shadow: 0 18px 60px rgba(147,51,234,0.18); transform: translateX(12px); border-color: #667eea; }
+        .contact-symbol { width: 65px; height: 65px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; box-shadow: 0 10px 25px rgba(147,51,234,0.35); }
+        .form-area { background: #fff; padding: 4.5rem; border-radius: 40px; box-shadow: 0 22px 80px rgba(147,51,234,0.15); border: 2px solid rgba(147,51,234,0.1); }
+        .success-banner { display: none; background: linear-gradient(135deg, #d4fc79, #96e6a1); color: #155724; padding: 1.8rem; border-radius: 22px; margin-bottom: 2.5rem; font-weight: 600; text-align: center; box-shadow: 0 10px 25px rgba(150,230,161,0.35); }
+        .input-group { margin-bottom: 2.5rem; }
+        .input-group label { display: block; margin-bottom: 1rem; color: #0f172a; font-weight: 700; font-size: 1.05rem; }
+        .input-group input, .input-group textarea { width: 100%; padding: 1.3rem 1.8rem; border: 2px solid #e5e7eb; border-radius: 18px; font-size: 1.1rem; font-family: inherit; transition: 0.3s; background: #f9fafb; }
+        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: #667eea; background: #fff; box-shadow: 0 0 0 5px rgba(147,51,234,0.1); transform: translateY(-2px); }
+        .input-group textarea { resize: vertical; min-height: 170px; }
+        .send-btn { width: 100%; padding: 1.5rem; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; border-radius: 18px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: 0.4s; box-shadow: 0 12px 35px rgba(147,51,234,0.35); position: relative; overflow: hidden; }
+        .send-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transition: 0.6s; transform: translate(-50%, -50%); }
+        .send-btn:hover::before { width: 600px; height: 600px; }
+        .send-btn:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(147,51,234,0.45); }
+        
+        .bottom { background: linear-gradient(135deg, #0f172a, #1e1b4b); color: #fff; padding: 4.5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+        .bottom::before { content: ''; position: absolute; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="1.5" fill="white" opacity="0.1"/></svg>'); }
+        .bottom-wrap { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+        .bottom-brand { font-size: 2.5rem; font-weight: 900; margin-bottom: 2rem; background: linear-gradient(135deg, #fbc2eb, #a6c1ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
+        .bottom-msg { color: rgba(255,255,255,0.85); margin-bottom: 3rem; font-size: 1.15rem; }
+        .social-row { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 3.5rem; }
+        .social-btn { width: 60px; height: 60px; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; transition: 0.4s; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; }
+        .social-btn:hover { background: linear-gradient(135deg, #667eea, #764ba2); transform: translateY(-6px) scale(1.15); box-shadow: 0 12px 35px rgba(147,51,234,0.6); }
+        .rights { color: rgba(255,255,255,0.65); font-size: 1.05rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.15); }
+        
+        @media (max-width: 1024px) {
+            .hero-wrap { grid-template-columns: 1fr; text-align: center; }
+            .hero-title { font-size: 4rem; }
+            .cta-group { justify-content: center; flex-wrap: wrap; }
+            .hero-visual { max-width: 550px; margin: 0 auto; }
+            .reach-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .links { gap: 2rem; font-size: 1rem; }
+            .hero-title { font-size: 3.2rem; }
+            .section-heading { font-size: 3rem; }
+            .metrics-wrap, .cards, .reviews-grid { grid-template-columns: 1fr; }
+            .hero-visual { display: none; }
+        }
+        @media (max-width: 640px) {
+            .cta-group { flex-direction: column; width: 100%; }
+            .cta { width: 100%; justify-content: center; }
+            .form-area { padding: 3rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar" id="navbar">
+        <div class="nav-content">
+            <div class="brand" onclick="window.scrollTo(0,0)"><span class="brand-symbol">🎗️</span><span>Jarurat Care</span></div>
+            <ul class="links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#purpose">Mission</a></li>
+                <li><a href="#inspiration">Inspiration</a></li>
+                <li><a href="#reach">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-area">
+        <div class="hero-bg">
+            <div class="bubble b1"></div>
+            <div class="bubble b2"></div>
+            <div class="bubble b3"></div>
+            <div class="bubble b4"></div>
+        </div>
+        <div class="hero-wrap">
+            <div class="hero-content">
+                <div class="tag">✨ Your Journey, Our Priority</div>
+                <h1 class="hero-title">Together We Fight,<span class="highlight">Together We Win</span></h1>
+                <p class="hero-desc">Join our thriving community of survivors, fighters, and supporters. Experience compassionate care, access vital resources, and discover unwavering hope for everyone affected by cancer.</p>
+                <div class="cta-group">
+                    <a href="#reach" class="cta cta-primary">Get Support Now →</a>
+                    <a href="#purpose" class="cta cta-outline">Discover More</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-frame">
+                    <div class="visual-img">💜</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="metrics">
+        <div class="metrics-wrap">
+            <div class="metric-box">
+                <div class="metric-icon">⏰</div>
+                <div class="metric-val">24/7</div>
+                <div class="metric-txt">Support Available</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-icon">❤️</div>
+                <div class="metric-val">15K+</div>
+                <div class="metric-txt">Lives Touched</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-icon">🎁</div>
+                <div class="metric-val">100%</div>
+                <div class="metric-txt">Free Resources</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="purpose" class="purpose">
+        <div class="purpose-head">
+            <div class="section-badge">Our Purpose</div>
+            <h2 class="section-heading">Empowering Hope, Every Step</h2>
+            <p class="section-text">We're dedicated to supporting individuals and families through every step of their cancer journey with compassion, comprehensive resources, and a caring community that understands.</p>
+        </div>
+        <div class="cards">
+            <div class="card-item">
+                <div class="card-symbol">🤝</div>
+                <h3 class="card-heading">Community Support</h3>
+                <p class="card-info">Connect with survivors and caregivers who truly understand your journey. Share experiences, find strength, and build lasting friendships in a safe, supportive environment.</p>
+            </div>
+            <div class="card-item">
+                <div class="card-symbol">📚</div>
+                <h3 class="card-heading">Educational Resources</h3>
+                <p class="card-info">Access comprehensive information about treatments, clinical trials, nutrition, and wellness programs. Knowledge empowers you to make informed decisions.</p>
+            </div>
+            <div class="card-item">
+                <div class="card-symbol">💪</div>
+                <h3 class="card-heading">Wellness Programs</h3>
+                <p class="card-info">Participate in specialized programs including yoga, meditation, nutrition counseling, and mental health support designed specifically for cancer patients.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="inspiration" class="inspiration">
+        <div class="purpose-head">
+            <div class="section-badge" style="background: rgba(255,255,255,0.25); color: #fff;">Daily Wisdom</div>
+            <h2 class="section-heading" style="color: #fff;">Find Your Strength</h2>
+            <p class="section-text" style="color: rgba(255,255,255,0.95);">Discover powerful words of inspiration and motivation</p>
+        </div>
+        <div class="quote-area">
+            <div class="quote-container">
+                <div class="quote-mark">"</div>
+                <p class="quote-content" id="quoteText">Loading inspiring words...</p>
+                <p class="quote-source" id="quoteAuth"></p>
+            </div>
+            <button class="quote-action" onclick="fetchQuote()">✨ New Inspiration</button>
+        </div>
+    </section>
+
+    <section class="reviews">
+        <div class="purpose-head">
+            <div class="section-badge">Testimonials</div>
+            <h2 class="section-heading">Stories of Hope</h2>
+            <p class="section-text">Real experiences from our community members</p>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="rating">★★★★★</div>
+                <div class="review-top">
+                    <div class="review-pic">👩</div>
+                    <div class="review-details">
+                        <h4>Sarah Johnson</h4>
+                        <p>Survivor</p>
+                    </div>
+                </div>
+                <p class="review-msg">"Jarurat Care gave me the strength and community I needed during my toughest days. The support here is incredible and genuinely life-changing."</p>
+            </div>
+            <div class="review-card">
+                <div class="rating">★★★★★</div>
+                <div class="review-top">
+                    <div class="review-pic">👨</div>
+                    <div class="review-details">
+                        <h4>Michael Chen</h4>
+                        <p>Caregiver</p>
+                    </div>
+                </div>
+                <p class="review-msg">"As a caregiver, I found resources and emotional support I didn't know I needed. This organization truly cares about every person they serve."</p>
+            </div>
+            <div class="review-card">
+                <div class="rating">★★★★★</div>
+                <div class="review-top">
+                    <div class="review-pic">👩</div>
+                    <div class="review-details">
+                        <h4>Emily Rodriguez</h4>
+                        <p>Fighter</p>
+                    </div>
+                </div>
+                <p class="review-msg">"The wellness programs and educational resources helped me take control of my journey. I'm grateful for this amazing community every single day."</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="reach" class="reach">
+        <div class="purpose-head">
+            <div class="section-badge">Contact Us</div>
+            <h2 class="section-heading">We're Here For You</h2>
+            <p class="section-text">Reach out anytime – we're ready to listen, support, and help</p>
+        </div>
+        <div class="reach-grid">
+            <div class="contact-info">
+                <h2>Let's Connect</h2>
+                <p>Whether you need immediate support, have questions about our programs, or want to get involved, we're here for you every step of the way.</p>
+                <div class="contact-list">
+                    <div class="contact-block">
+                        <div class="contact-symbol">📞</div>
+                        <div><strong style="font-size: 1.1rem;">24/7 Support Line</strong><br><span style="color: #6b7280;">1-800-HOPE-NOW</span></div>
+                    </div>
+                    <div class="contact-block">
+                        <div class="contact-symbol">✉️</div>
+                        <div><strong style="font-size: 1.1rem;">Email Us</strong><br><span style="color: #6b7280;">support@jaruratcare.org</span></div>
+                    </div>
+                    <div class="contact-block">
+                        <div class="contact-symbol">📍</div>
+                        <div><strong style="font-size: 1.1rem;">Visit Us</strong><br><span style="color: #6b7280;">Available Nationwide</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-area">
+                <div id="successMsg" class="success-banner">✅ Thank you! We'll respond within 24 hours.</div>
+                <form id="contactForm">
+                    <div class="input-group">
+                        <label for="fullname">Full Name *</label>
+                        <input type="text" id="fullname" required placeholder="John Doe">
+                    </div>
+                    <div class="input-group">
+                        <label for="emailaddr">Email Address *</label>
+                        <input type="email" id="emailaddr" required placeholder="john@example.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="usermsg">Your Message *</label>
+                        <textarea id="usermsg" required placeholder="How can we help you today?"></textarea>
+                    </div>
+                    <button type="submit" class="send-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bottom">
+        <div class="bottom-wrap">
+            <div class="bottom-brand">🎗️ Jarurat Care</div>
+            <p class="bottom-msg">Together, we can make a difference</p>
+            <div class="social-row">
+                <div class="social-btn">📘</div>
+                <div class="social-btn">📷</div>
+                <div class="social-btn">🐦</div>
+                <div class="social-btn">💼</div>
+            </div>
+            <p class="rights">&copy; 2024 Jarurat Care - Cancer Awareness & Support. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const apiEndpoint = 'https://api.quotable.io/random?tags=inspirational|wisdom|hope|motivational';
+        
+        async function fetchQuote() {
+            const textEl = document.getElementById('quoteText');
+            const authEl = document.getElementById('quoteAuth');
+            textEl.textContent = 'Loading...';
+            authEl.textContent = '';
+            try {
+                const response = await fetch(apiEndpoint);
+                const data = await response.json();
+                textEl.textContent = data.content;
+                authEl.textContent = '— ' + data.author;
+            } catch {
+                textEl.textContent = 'Hope is the thing with feathers that perches in the soul.';
+                authEl.textContent = '— Emily Dickinson';
+            }
+        }
+        
+        fetchQuote();
+        
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('successMsg').style.display = 'block';
+            this.reset();
+            setTimeout(() => document.getElementById('successMsg').style.display = 'none', 5000);
+        });
+        
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('active', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html></parameter>
